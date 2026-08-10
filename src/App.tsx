@@ -1,16 +1,22 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Map,
   MapMarker,
   MarkerContent,
   MarkerPopup,
   type MapRef,
+  type MapStyleOption,
 } from "@/components/ui/map";
 import { PhotoGallery } from "@/components/PhotoGallery";
-import { CountryLabelFilter } from "@/components/CountryLabelFilter";
+import { loadStyleWithCountryFilter } from "@/lib/mapStyle";
 import { cn } from "@/lib/utils";
 import officeImg from "@/assets/modern-office-space-interior.jpg";
 import "./App.css";
+
+const LIGHT_STYLE_URL =
+  "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json";
+const DARK_STYLE_URL =
+  "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
 
 const FOTOS_PLACEHOLDER = Array.from({ length: 7 }, () => officeImg);
 
@@ -42,7 +48,7 @@ type Region = {
 const REGIONES: Region[] = [
   { id: "europa", label: "Europa", center: [15, 52], zoom: 3.4 },
   { id: "america", label: "América", center: [-80, 10], zoom: 2 },
-  { id: "africa", label: "África", center: [15, 10], zoom: 2.6 },
+  { id: "africa", label: "África", center: [15, 10], zoom: 3.6 },
 ];
 
 type Oficina = {
@@ -126,8 +132,7 @@ const OFICINAS: Oficina[] = [
   {
     id: "lleida",
     ciudad: "Lleida",
-    direccion:
-      "Parque de Gardeny, edificio H2, 2º, Ala B1, 25071 Lérida",
+    direccion: "Parque de Gardeny, edificio H2, 2º, Ala B1, 25071 Lérida",
     longitude: 0.6070762,
     latitude: 41.6062303,
     fotos: FOTOS_PLACEHOLDER,
@@ -281,7 +286,8 @@ const OFICINAS: Oficina[] = [
   {
     id: "santiago",
     ciudad: "Chile - Santiago",
-    direccion: "Av. Providencia 111, 7500776 Providencia, Región Metropolitana, Chile",
+    direccion:
+      "Av. Providencia 111, 7500776 Providencia, Región Metropolitana, Chile",
     longitude: -70.632271,
     latitude: -33.4370521,
     fotos: FOTOS_PLACEHOLDER,
@@ -337,7 +343,8 @@ const OFICINAS: Oficina[] = [
   {
     id: "bucarest",
     ciudad: "Rumanía – Bucarest",
-    direccion: "Șoseaua Pipera-Tunari, nr. 1H-L13, 077191 - Voluntari, Ilfov (Rumanía)",
+    direccion:
+      "Șoseaua Pipera-Tunari, nr. 1H-L13, 077191 - Voluntari, Ilfov (Rumanía)",
     longitude: 26.1772794,
     latitude: 44.4902779,
     fotos: FOTOS_PLACEHOLDER,
@@ -356,12 +363,29 @@ const OFICINAS: Oficina[] = [
 function App() {
   const mapRef = useRef<MapRef>(null);
   const [activeRegion, setActiveRegion] = useState<string | null>(null);
+  const [mapStyles, setMapStyles] = useState<{
+    light?: MapStyleOption;
+    dark?: MapStyleOption;
+  }>({});
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([
+      loadStyleWithCountryFilter(LIGHT_STYLE_URL, PAISES_CON_OFICINA),
+      loadStyleWithCountryFilter(DARK_STYLE_URL, PAISES_CON_OFICINA),
+    ]).then(([light, dark]) => {
+      if (!cancelled) setMapStyles({ light, dark });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleMarkerClick = (oficina: Oficina) => {
     setActiveRegion(null);
     mapRef.current?.flyTo({
       center: [oficina.longitude, oficina.latitude],
-      zoom: 12,
+      zoom: 6,
       duration: 1500,
     });
   };
@@ -376,15 +400,15 @@ function App() {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: "#071B7F" }}>
+    <div style={{ height: "100vh", width: "100vw", background: "#ffffff" }}>
       <Map
         ref={mapRef}
         projection={{ type: "globe" }}
         center={[-3.7, 40.4]}
         zoom={1.5}
-        className="h-full w-full bg-[#071B7F]"
+        styles={mapStyles}
+        className="h-full w-full bg-white"
       >
-        <CountryLabelFilter codes={PAISES_CON_OFICINA} />
         <div className="absolute top-2 left-2 z-10 flex gap-2">
           {REGIONES.map((region) => (
             <button
