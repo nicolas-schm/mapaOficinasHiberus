@@ -5,6 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  assetsInclude: ["**/*.jfif"],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

@@ -19,6 +19,27 @@ const DARK_STYLE_URL =
 
 const FOTOS_PLACEHOLDER = Array.from({ length: 7 }, () => officeImg);
 
+// Real office photos live in src/assets/oficinas/<id>/*.jpg. Any office
+// without a folder yet keeps using FOTOS_PLACEHOLDER.
+const officePhotoModules = import.meta.glob<{ default: string }>(
+  "./assets/oficinas/*/*.{jpg,jpeg,png,webp,jfif}",
+  { eager: true },
+);
+
+const OFFICE_PHOTOS: Record<string, string[]> = {};
+for (const [path, mod] of Object.entries(officePhotoModules)) {
+  const officeId = path.match(/\/oficinas\/([^/]+)\//)?.[1];
+  if (!officeId) continue;
+  (OFFICE_PHOTOS[officeId] ??= []).push(mod.default);
+}
+for (const fotos of Object.values(OFFICE_PHOTOS)) {
+  fotos.sort(
+    (a, b) =>
+      Number(a.match(/_(\d+)\./)?.[1] ?? 0) -
+      Number(b.match(/_(\d+)\./)?.[1] ?? 0),
+  );
+}
+
 // ISO 3166-1 alpha-2 codes for every country with an office.
 const PAISES_CON_OFICINA = [
   "ES",
@@ -81,7 +102,10 @@ const ORIGEN_INFO: Record<
   { pais: string; iso: string; region: string }
 > = {
   ...Object.fromEntries(
-    SPAIN_IDS.map((id) => [id, { pais: "España", iso: "es", region: "Europa" }]),
+    SPAIN_IDS.map((id) => [
+      id,
+      { pais: "España", iso: "es", region: "Europa" },
+    ]),
   ),
   miami: { pais: "Estados Unidos", iso: "us", region: "América" },
   "buenos-aires": { pais: "Argentina", iso: "ar", region: "América" },
@@ -421,9 +445,7 @@ const OFICINAS: Oficina[] = [
 function App() {
   const mapRef = useRef<MapRef>(null);
   const [activeRegion, setActiveRegion] = useState<string | null>("todos");
-  const [selectedOficina, setSelectedOficina] = useState<Oficina | null>(
-    null,
-  );
+  const [selectedOficina, setSelectedOficina] = useState<Oficina | null>(null);
   const [mapStyles, setMapStyles] = useState<{
     light?: MapStyleOption;
     dark?: MapStyleOption;
@@ -540,6 +562,7 @@ function App() {
             selectedOficina && {
               ...selectedOficina,
               ciudad: displayCiudad(selectedOficina.ciudad),
+              fotos: OFFICE_PHOTOS[selectedOficina.id] ?? selectedOficina.fotos,
             }
           }
           meta={selectedOficina ? ORIGEN_INFO[selectedOficina.id] : null}
