@@ -7,10 +7,7 @@ import type { StyleSpecification } from "maplibre-gl";
 // property getter, which throws "Cannot compare types 'string' and
 // 'number'". So each layer's replacement filter is written out fully in the
 // expression dialect instead of merging with the original.
-const COUNTRY_LABEL_FILTERS: Record<
-  string,
-  (codes: string[]) => unknown[]
-> = {
+const COUNTRY_LABEL_FILTERS: Record<string, (codes: string[]) => unknown[]> = {
   place_country_1: (codes) => [
     "all",
     ["==", ["get", "class"], "country"],
@@ -50,9 +47,23 @@ const HIDDEN_PLACE_LAYERS = [
 // The land fill in the CARTO styles: a "background" layer covering the
 // whole canvas plus two landcover/landuse fill layers drawn on top of it
 // (water is a separate "water" layer, untouched here).
-const LAND_COLOR = "#1336F5";
+const LAND_COLOR = "#2A49E0";
 const LAND_LAYERS = new Set(["background", "landcover", "landuse"]);
-const WATER_COLOR = "#071B7F";
+
+// Ocean · claro / medio / oscuro: interpolated by zoom instead of a flat
+// color, so it reads light at the globe view and darkens as you zoom into a
+// city, matching the reference gradient.
+const WATER_COLOR_EXPRESSION = [
+  "interpolate",
+  ["linear"],
+  ["zoom"],
+  1,
+  "#1B3AC7",
+  4,
+  "#0E1E8C",
+  10,
+  "#030620",
+];
 const WATER_LAYERS = new Set(["water"]);
 
 /**
@@ -74,11 +85,15 @@ export async function loadStyleWithCountryFilter(
     if (HIDDEN_PLACE_LAYERS.includes(layer.id)) {
       return {
         ...layer,
-        layout: { ...("layout" in layer ? layer.layout : {}), visibility: "none" },
+        layout: {
+          ...("layout" in layer ? layer.layout : {}),
+          visibility: "none",
+        },
       };
     }
     if (LAND_LAYERS.has(layer.id) && "paint" in layer) {
-      const colorKey = layer.type === "background" ? "background-color" : "fill-color";
+      const colorKey =
+        layer.type === "background" ? "background-color" : "fill-color";
       return {
         ...layer,
         paint: { ...layer.paint, [colorKey]: LAND_COLOR },
@@ -87,7 +102,7 @@ export async function loadStyleWithCountryFilter(
     if (WATER_LAYERS.has(layer.id) && "paint" in layer) {
       return {
         ...layer,
-        paint: { ...layer.paint, "fill-color": WATER_COLOR },
+        paint: { ...layer.paint, "fill-color": WATER_COLOR_EXPRESSION },
       };
     }
     return layer;

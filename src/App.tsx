@@ -3,11 +3,10 @@ import {
   Map,
   MapMarker,
   MarkerContent,
-  MarkerPopup,
   type MapRef,
   type MapStyleOption,
 } from "@/components/ui/map";
-import { PhotoGallery } from "@/components/PhotoGallery";
+import { OfficeSidebar } from "@/components/OfficeSidebar";
 import { loadStyleWithCountryFilter } from "@/lib/mapStyle";
 import { cn } from "@/lib/utils";
 import officeImg from "@/assets/modern-office-space-interior.jpg";
@@ -46,10 +45,69 @@ type Region = {
 };
 
 const REGIONES: Region[] = [
+  { id: "todos", label: "Todos", center: [-3.7, 40.4], zoom: 1.5 },
   { id: "europa", label: "Europa", center: [15, 52], zoom: 3.4 },
   { id: "america", label: "América", center: [-80, 10], zoom: 2 },
   { id: "africa", label: "África", center: [15, 10], zoom: 3.6 },
 ];
+
+const SPAIN_IDS = [
+  "zaragoza",
+  "madrid",
+  "barcelona",
+  "alicante",
+  "almeria",
+  "asturias",
+  "bilbao",
+  "granada",
+  "lleida",
+  "logrono",
+  "mallorca",
+  "pamplona",
+  "santander",
+  "sevilla",
+  "soria",
+  "toledo",
+  "valencia",
+  "valladolid",
+  "vitoria",
+];
+
+// Country + region metadata per office id, used by the sidebar. Kept
+// separate from OFICINAS so the office list itself only carries geo/photo
+// data.
+const ORIGEN_INFO: Record<
+  string,
+  { pais: string; iso: string; region: string }
+> = {
+  ...Object.fromEntries(
+    SPAIN_IDS.map((id) => [id, { pais: "España", iso: "es", region: "Europa" }]),
+  ),
+  miami: { pais: "Estados Unidos", iso: "us", region: "América" },
+  "buenos-aires": { pais: "Argentina", iso: "ar", region: "América" },
+  bogota: { pais: "Colombia", iso: "co", region: "América" },
+  quito: { pais: "Ecuador", iso: "ec", region: "América" },
+  guayaquil: { pais: "Ecuador", iso: "ec", region: "América" },
+  cdmx: { pais: "México", iso: "mx", region: "América" },
+  queretaro: { pais: "México", iso: "mx", region: "América" },
+  santiago: { pais: "Chile", iso: "cl", region: "América" },
+  grafelfing: { pais: "Alemania", iso: "de", region: "Europa" },
+  andorra: { pais: "Andorra", iso: "ad", region: "Europa" },
+  milan: { pais: "Italia", iso: "it", region: "Europa" },
+  wroclaw: { pais: "Polonia", iso: "pl", region: "Europa" },
+  varsovia: { pais: "Polonia", iso: "pl", region: "Europa" },
+  londres: { pais: "Reino Unido", iso: "gb", region: "Europa" },
+  bucarest: { pais: "Rumanía", iso: "ro", region: "Europa" },
+  tetuan: { pais: "Marruecos", iso: "ma", region: "África" },
+};
+
+// Several office "ciudad" values are stored as "País - Ciudad" for context
+// elsewhere in the UI; the sidebar wants just the city.
+function displayCiudad(ciudad: string): string {
+  if (ciudad.includes(" – ")) return ciudad.split(" – ")[1];
+  if (ciudad.includes(" - ")) return ciudad.split(" - ")[1];
+  return ciudad;
+}
 
 type Oficina = {
   id: string;
@@ -362,7 +420,10 @@ const OFICINAS: Oficina[] = [
 
 function App() {
   const mapRef = useRef<MapRef>(null);
-  const [activeRegion, setActiveRegion] = useState<string | null>(null);
+  const [activeRegion, setActiveRegion] = useState<string | null>("todos");
+  const [selectedOficina, setSelectedOficina] = useState<Oficina | null>(
+    null,
+  );
   const [mapStyles, setMapStyles] = useState<{
     light?: MapStyleOption;
     dark?: MapStyleOption;
@@ -383,6 +444,7 @@ function App() {
 
   const handleMarkerClick = (oficina: Oficina) => {
     setActiveRegion(null);
+    setSelectedOficina(oficina);
     mapRef.current?.flyTo({
       center: [oficina.longitude, oficina.latitude],
       zoom: 6,
@@ -392,6 +454,7 @@ function App() {
 
   const handleRegionClick = (region: Region) => {
     setActiveRegion(region.id);
+    setSelectedOficina(null);
     mapRef.current?.flyTo({
       center: region.center,
       zoom: region.zoom,
@@ -400,14 +463,21 @@ function App() {
   };
 
   return (
-    <div style={{ height: "100vh", width: "100vw", background: "#ffffff" }}>
+    <div
+      style={{
+        height: "100vh",
+        width: "100vw",
+        background:
+          "radial-gradient(circle at 50% 45%, #1a2fa0 0%, #0d1a78 45%, #030720 85%)",
+      }}
+    >
       <Map
         ref={mapRef}
         projection={{ type: "globe" }}
         center={[-3.7, 40.4]}
         zoom={1.5}
         styles={mapStyles}
-        className="h-full w-full bg-white"
+        className="h-full w-full bg-transparent"
       >
         <div className="absolute top-2 left-2 z-10 flex gap-2">
           {REGIONES.map((region) => (
@@ -416,15 +486,26 @@ function App() {
               type="button"
               onClick={() => handleRegionClick(region)}
               className={cn(
-                "rounded-full border px-3 py-1.5 text-sm font-medium shadow-sm transition-colors",
+                "cursor-pointer rounded-full border px-4 py-1.5 text-sm font-medium shadow-sm transition-colors",
                 activeRegion === region.id
-                  ? "bg-foreground text-background border-foreground"
-                  : "bg-background/90 text-foreground border-border hover:bg-accent",
+                  ? "border-sky-400 bg-[#0d1a4f] text-white"
+                  : "border-transparent bg-white text-slate-900 hover:bg-white/90",
               )}
             >
               {region.label}
             </button>
           ))}
+        </div>
+        <div className="absolute top-2 left-1/2 z-10 -translate-x-1/2">
+          <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/30 px-4 py-1.5 backdrop-blur-sm">
+            <span className="text-xs font-bold tracking-widest text-sky-400 uppercase">
+              Hiberus
+            </span>
+            <span className="text-xs text-white/50">·</span>
+            <span className="text-xs font-medium tracking-widest text-white/90 uppercase">
+              Presencia global
+            </span>
+          </div>
         </div>
         {OFICINAS.map((oficina) => (
           <MapMarker
@@ -434,19 +515,36 @@ function App() {
             onClick={() => handleMarkerClick(oficina)}
           >
             <MarkerContent />
-            <MarkerPopup closeButton className="w-72 max-w-72">
-              <div className="pr-5">
-                <strong className="text-sm">
-                  {oficina.nombre ?? oficina.ciudad}
-                </strong>
-                <p className="text-muted-foreground text-xs">
-                  {oficina.direccion}
-                </p>
-              </div>
-              <PhotoGallery photos={oficina.fotos} className="mt-2" />
-            </MarkerPopup>
           </MapMarker>
         ))}
+        <div className="absolute right-6 bottom-6 z-10 text-right">
+          <p className="text-xs font-semibold tracking-widest text-sky-400 uppercase">
+            Presencia en todo el mundo
+          </p>
+          <p className="text-5xl leading-tight font-bold text-white">
+            {OFICINAS.length}
+          </p>
+          <p className="text-sm text-white/80">Sedes</p>
+        </div>
+        <div className="absolute bottom-6 left-6 z-10 flex items-center gap-2">
+          <span className="h-px w-6 bg-sky-400" />
+          <span className="text-xs font-semibold tracking-widest text-sky-400 uppercase">
+            #WeAreDifferent
+          </span>
+        </div>
+        <p className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-xs font-semibold tracking-widest text-white/50 uppercase">
+          Arrastra para rotar · Scroll para zoom · Click en un punto
+        </p>
+        <OfficeSidebar
+          oficina={
+            selectedOficina && {
+              ...selectedOficina,
+              ciudad: displayCiudad(selectedOficina.ciudad),
+            }
+          }
+          meta={selectedOficina ? ORIGEN_INFO[selectedOficina.id] : null}
+          onClose={() => setSelectedOficina(null)}
+        />
       </Map>
     </div>
   );
