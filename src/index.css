@@ -267,4 +267,6 @@ code {
   .maplibregl-ctrl-attrib a:hover {
     @apply text-foreground!;}
   .maplibregl-ctrl-attrib-button {
-    @apply bg-transparent! dark:invert;}}
+    @apply bg-transparent! dark:invert;}
+  .maplibregl-ctrl-bottom-right {
+    @apply hidden!;}}
