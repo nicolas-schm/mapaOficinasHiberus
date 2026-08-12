@@ -314,3 +314,18 @@ export const OFICINAS: Oficina[] = [
     latitude: 35.5697958,
   },
 ];
+
+export function getRegionBounds(
+  regionLabel: string,
+): [[number, number], [number, number]] {
+  const offices = OFICINAS.filter(
+    (oficina) => ORIGEN_INFO[oficina.id]?.region === regionLabel,
+  );
+  const longitudes = offices.map((oficina) => oficina.longitude);
+  const latitudes = offices.map((oficina) => oficina.latitude);
+
+  return [
+    [Math.min(...longitudes), Math.min(...latitudes)],
+    [Math.max(...longitudes), Math.max(...latitudes)],
+  ];
+}

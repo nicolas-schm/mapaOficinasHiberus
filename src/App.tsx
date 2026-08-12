@@ -8,7 +8,7 @@ import { BrandTag } from "@/components/map/BrandTag";
 import { MapHint } from "@/components/map/MapHint";
 import { OfficeMarkers } from "@/components/map/OfficeMarkers";
 import { useMapStyles } from "@/hooks/useMapStyles";
-import { OFICINAS, ORIGEN_INFO } from "@/data/oficinas";
+import { OFICINAS, ORIGEN_INFO, getRegionBounds } from "@/data/oficinas";
 import { REGIONES } from "@/data/regiones";
 import { getOfficePhotos } from "@/lib/officePhotos";
 import { displayCiudad } from "@/lib/format";
@@ -46,10 +46,20 @@ function App() {
   const handleRegionSelect = (region: Region) => {
     setActiveRegionId(region.id);
     setSelectedOficina(null);
-    mapRef.current?.flyTo({
-      center: region.center,
-      zoom: region.zoom,
+
+    if (region.id === "todos") {
+      mapRef.current?.flyTo({
+        center: region.center,
+        zoom: region.zoom,
+        duration: FLY_TO_DURATION,
+      });
+      return;
+    }
+
+    mapRef.current?.fitBounds(getRegionBounds(region.label), {
+      padding: 60,
       duration: FLY_TO_DURATION,
+      maxZoom: 6,
     });
   };
 
