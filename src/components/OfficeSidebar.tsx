@@ -1,4 +1,6 @@
+import { useRef, useState, type TouchEvent } from "react";
 import { Globe2, Mail, MapPin, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { PhotoGallery } from "@/components/PhotoGallery";
 
 export type OficinaMeta = {
@@ -18,6 +20,8 @@ type OfficeSidebarProps = {
   meta: OficinaMeta | null;
   onClose: () => void;
 };
+
+const SWIPE_THRESHOLD = 30;
 
 function InfoRow({
   icon,
@@ -44,12 +48,42 @@ function InfoRow({
 }
 
 export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
+  const [expanded, setExpanded] = useState(false);
+  const touchStartYRef = useRef<number | null>(null);
+
   if (!oficina || !meta) return null;
 
   const titulo = oficina.nombre ?? oficina.ciudad;
 
+  const handleTouchStart = (e: TouchEvent) => {
+    touchStartYRef.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: TouchEvent) => {
+    if (touchStartYRef.current == null) return;
+    const deltaY = e.changedTouches[0].clientY - touchStartYRef.current;
+    if (deltaY < -SWIPE_THRESHOLD) setExpanded(true);
+    else if (deltaY > SWIPE_THRESHOLD) setExpanded(false);
+    touchStartYRef.current = null;
+  };
+
   return (
-    <div className="animate-in slide-in-from-left fade-in absolute top-0 left-0 z-20 h-full w-full overflow-y-auto border-r border-white/10 bg-gradient-to-b from-[#0a1440]/97 to-[#050a24]/97 p-6 backdrop-blur-md duration-300 sm:w-[507px]">
+    <div
+      className={cn(
+        "animate-in slide-in-from-bottom fade-in fixed inset-x-0 bottom-0 z-20 rounded-t-2xl border-t border-white/10 bg-gradient-to-b from-[#0a1440]/97 to-[#050a24]/97 p-6 pt-3 backdrop-blur-md duration-300 sm:slide-in-from-left sm:inset-y-0 sm:right-auto sm:bottom-auto sm:h-full sm:w-[507px] sm:rounded-none sm:rounded-tl-none sm:border-t-0 sm:border-r sm:pt-6 sm:overflow-y-auto",
+        "max-h-[175px] transition-[max-height] duration-300 ease-out sm:max-h-none",
+        expanded ? "max-h-[85vh] overflow-y-auto" : "overflow-hidden",
+      )}
+    >
+      <div
+        onClick={() => setExpanded((v) => !v)}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        className="-mx-6 -mt-3 mb-3 flex cursor-pointer justify-center pt-3 pb-1 sm:hidden"
+      >
+        <span className="h-1 w-10 rounded-full bg-white/25" />
+      </div>
+
       <button
         type="button"
         onClick={onClose}

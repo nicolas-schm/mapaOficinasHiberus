@@ -84,6 +84,7 @@ function App() {
         <BrandTag />
         <MapHint />
         <OfficeSidebar
+          key={selectedOficina?.id}
           oficina={sidebarOficina}
           meta={selectedOficina ? ORIGEN_INFO[selectedOficina.id] : null}
           onClose={handleSidebarClose}
