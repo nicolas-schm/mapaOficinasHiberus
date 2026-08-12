@@ -6,6 +6,7 @@ import { BrandBadge } from "@/components/map/BrandBadge";
 import { PresenceStats } from "@/components/map/PresenceStats";
 import { BrandTag } from "@/components/map/BrandTag";
 import { MapHint } from "@/components/map/MapHint";
+import { MobileZoomControls } from "@/components/map/MobileZoomControls";
 import { OfficeMarkers } from "@/components/map/OfficeMarkers";
 import { useMapStyles } from "@/hooks/useMapStyles";
 import { OFICINAS, ORIGEN_INFO, getRegionBounds } from "@/data/oficinas";
@@ -93,6 +94,7 @@ function App() {
         <PresenceStats total={OFICINAS.length} />
         <BrandTag />
         <MapHint />
+        <MobileZoomControls />
         <OfficeSidebar
           key={selectedOficina?.id}
           oficina={sidebarOficina}
