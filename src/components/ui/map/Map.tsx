@@ -16,6 +16,8 @@ import { MapContext } from "./context";
 import { defaultStyles, blankMapStyle, useStableValue } from "./styles";
 import { useResolvedTheme, type Theme } from "./theme";
 
+MapLibreGL.setWorkerUrl(`${import.meta.env.BASE_URL}maplibre/maplibre-gl-worker.mjs`);
+
 export type MapViewport = {
   center: [number, number];
   zoom: number;
