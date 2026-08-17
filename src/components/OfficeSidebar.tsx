@@ -1,5 +1,5 @@
 import { useRef, useState, type TouchEvent } from "react";
-import { Mail, MapPin, X, Phone } from "lucide-react";
+import { Globe, Mail, MapPin, X, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PhotoGallery } from "@/components/PhotoGallery";
 
@@ -14,6 +14,7 @@ export type SidebarOficina = {
   nombre?: string;
   direccion: string;
   telefono?: string;
+  web?: string;
   fotos: string[];
 };
 
@@ -30,12 +31,20 @@ function InfoRow({
   label,
   value,
   wrap = false,
+  href,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   wrap?: boolean;
+  href?: string;
 }) {
+  const valueClassName = cn(
+    "text-sm text-white",
+    wrap ? "" : "truncate",
+    href && "hover:underline",
+  );
+
   return (
     <div className="flex items-center gap-3 rounded-lg border border-white/5 bg-white/5 px-3 py-2.5">
       <div className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sky-500/20 text-sky-300">
@@ -45,9 +54,18 @@ function InfoRow({
         <span className="text-[10px] font-semibold tracking-widest text-white/40 uppercase">
           {label}
         </span>
-        <span className={cn("text-sm text-white", wrap ? "" : "truncate")}>
-          {value}
-        </span>
+        {href ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noreferrer"
+            className={valueClassName}
+          >
+            {value}
+          </a>
+        ) : (
+          <span className={valueClassName}>{value}</span>
+        )}
       </div>
     </div>
   );
@@ -137,6 +155,14 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
             icon={<Phone className="size-4" />}
             label="Teléfono"
             value={oficina.telefono}
+          />
+        )}
+        {oficina.web && (
+          <InfoRow
+            icon={<Globe className="size-4" />}
+            label="Web"
+            value={oficina.web}
+            href={oficina.web}
           />
         )}
       </div>

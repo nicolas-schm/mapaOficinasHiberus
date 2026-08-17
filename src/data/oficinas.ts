@@ -206,6 +206,7 @@ export const OFICINAS: Oficina[] = [
     id: "buenos-aires",
     ciudad: "Argentina - Buenos Aires",
     direccion: "Patagones 2550, CABA - Buenos Aires - Argentina",
+    web: "https://www.hiberus.com/",
     longitude: -58.397726,
     latitude: -34.6369193,
   },
@@ -215,6 +216,7 @@ export const OFICINAS: Oficina[] = [
     direccion:
       "Calle 98 Nº 70-91 Suite 712, Centro Empresarial Vardí, Bogotá - Colombia",
     telefono: "+57 6017189963",
+    web: "https://www.hiberus.com/",
     longitude: -74.0836331,
     latitude: 4.6533817,
   },
@@ -224,6 +226,7 @@ export const OFICINAS: Oficina[] = [
     direccion:
       "Av. 6 de Diciembre N24-417 y Luis Cordero, Edif. Novus, 4to Piso, Oficina 401, Quito - Ecuador",
     telefono: "(02) 254-0103",
+    web: "https://www.hiberus.com/",
     longitude: -78.5123274,
     latitude: -0.2201641,
   },
@@ -233,6 +236,7 @@ export const OFICINAS: Oficina[] = [
     direccion:
       "Av. Joaquín Orrantia y Leopoldo Benítez, Galería Comercial del hotel TRYP BY WYNDHAM, Mezzanine 2 oficina 213, Guayaquil - Ecuador",
     telefono: "(04) 263-9356",
+    web: "https://www.hiberus.com/",
     longitude: -79.9002101,
     latitude: -2.0829656,
   },
@@ -241,6 +245,7 @@ export const OFICINAS: Oficina[] = [
     ciudad: "México - Ciudad de México",
     direccion:
       "Prol. Pº de la Reforma 1200, Santa Fe, Contadero, Cuajimalpa de Morelos, 05349 Ciudad de México, México",
+    web: "https://www.hiberus.com/",
     longitude: -99.2728019,
     latitude: 19.3587457,
   },
@@ -250,6 +255,7 @@ export const OFICINAS: Oficina[] = [
     direccion:
       "World Trade Center Querétaro, Piso 13, Oficina 1305, Pº de la República Km 13020, 76230 Juriquilla, Querétaro, México",
     telefono: "+52 5578609922 / +52 4424717804",
+    web: "https://www.hiberus.com/",
     longitude: -100.458387,
     latitude: 20.7125923,
   },
@@ -258,6 +264,7 @@ export const OFICINAS: Oficina[] = [
     ciudad: "Chile - Santiago",
     direccion:
       "Av. Providencia 111, 7500776 Providencia, Región Metropolitana, Chile",
+    web: "https://www.hiberus.com/",
     longitude: -70.632271,
     latitude: -33.4370521,
   },
@@ -318,6 +325,7 @@ export const OFICINAS: Oficina[] = [
     ciudad: "Marruecos – Tetuán",
     direccion:
       "Oficinas Wilaya Center, Avenida Ali Yata, 2º Piso, Oficina Nº 19, 93000 - Tetuán (Marruecos)",
+    web: "https://www.hiberus.com/",
     longitude: -5.3746918,
     latitude: 35.5697958,
   },

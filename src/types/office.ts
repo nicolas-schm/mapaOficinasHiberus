@@ -4,6 +4,7 @@ export type Oficina = {
   nombre?: string;
   direccion: string;
   telefono?: string;
+  web?: string;
   longitude: number;
   latitude: number;
 };
