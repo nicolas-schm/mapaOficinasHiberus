@@ -2,6 +2,9 @@ import { useRef, useState, type TouchEvent } from "react";
 import { Globe, Mail, MapPin, X, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PhotoGallery } from "@/components/PhotoGallery";
+import { getClientLogos } from "@/lib/clientLogos";
+
+const CLIENT_LOGOS = getClientLogos();
 
 export type OficinaMeta = {
   pais: string;
@@ -173,6 +176,24 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
             Galería
           </p>
           <PhotoGallery photos={oficina.fotos} />
+        </div>
+      )}
+
+      {CLIENT_LOGOS.length > 0 && (
+        <div className="mt-6">
+          <p className="mb-3 text-[11px] font-bold tracking-widest text-sky-400 uppercase">
+            Nuestros clientes
+          </p>
+          <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+            {CLIENT_LOGOS.map((logo, i) => (
+              <img
+                key={i}
+                src={logo}
+                alt=""
+                className="h-6 w-auto object-contain opacity-90 brightness-0 invert"
+              />
+            ))}
+          </div>
         </div>
       )}
 
