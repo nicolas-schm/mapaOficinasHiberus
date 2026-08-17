@@ -1,7 +1,3 @@
-import officeImg from "@/assets/modern-office-space-interior.jpg";
-
-const FOTOS_PLACEHOLDER = Array.from({ length: 7 }, () => officeImg);
-
 const officePhotoModules = import.meta.glob<{ default: string }>(
   "../assets/oficinas/*/*.{jpg,jpeg,png,webp,jfif}",
   { eager: true },
@@ -24,5 +20,5 @@ for (const fotos of Object.values(OFFICE_PHOTOS)) {
 }
 
 export function getOfficePhotos(officeId: string): string[] {
-  return OFFICE_PHOTOS[officeId] ?? FOTOS_PLACEHOLDER;
+  return OFFICE_PHOTOS[officeId] ?? [];
 }

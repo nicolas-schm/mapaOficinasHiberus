@@ -1,5 +1,5 @@
 import { useRef, useState, type TouchEvent } from "react";
-import { Globe2, Mail, MapPin, X, Phone } from "lucide-react";
+import { Mail, MapPin, X, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PhotoGallery } from "@/components/PhotoGallery";
 
@@ -141,12 +141,14 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
         )}
       </div>
 
-      <div className="mt-6">
-        <p className="mb-2 text-[10px] font-semibold tracking-widest text-white/40 uppercase">
-          Galería
-        </p>
-        <PhotoGallery photos={oficina.fotos} />
-      </div>
+      {oficina.fotos.length > 0 && (
+        <div className="mt-6">
+          <p className="mb-2 text-[10px] font-semibold tracking-widest text-white/40 uppercase">
+            Galería
+          </p>
+          <PhotoGallery photos={oficina.fotos} />
+        </div>
+      )}
 
       <hr className="my-6 border-white/10" />
 
