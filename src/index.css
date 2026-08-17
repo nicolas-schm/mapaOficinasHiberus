@@ -266,6 +266,9 @@ code {
     font-family: var(--sans);
     font-weight: 100;
   }
+  .maplibregl-map {
+    font-family: var(--sans)!important;
+  }
   .maplibregl-popup-content {
     @apply bg-transparent! shadow-none! p-0! rounded-none!;
   }
