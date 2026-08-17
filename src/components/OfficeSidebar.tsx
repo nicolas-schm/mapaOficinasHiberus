@@ -1,5 +1,5 @@
 import { useRef, useState, type TouchEvent } from "react";
-import { Globe2, Mail, MapPin, X } from "lucide-react";
+import { Globe2, Mail, MapPin, X, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PhotoGallery } from "@/components/PhotoGallery";
 
@@ -104,10 +104,10 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
         {meta.pais}
       </p>
 
-      <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-sky-400/40 bg-sky-400/10 px-3 py-1 text-[11px] font-semibold tracking-wide text-sky-300 uppercase">
+      {/* <span className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-sky-400/40 bg-sky-400/10 px-3 py-1 text-[11px] font-semibold tracking-wide text-sky-300 uppercase">
         <span className="size-1.5 rounded-full bg-sky-400" />
         Oficina activa
-      </span>
+      </span> */}
 
       <div className="mt-6 flex flex-col gap-2">
         <InfoRow
@@ -123,6 +123,11 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
         <InfoRow
           icon={<Mail className="size-4" />}
           label="Contacto"
+          value="info@hiberus.com"
+        />
+        <InfoRow
+          icon={<Phone className="size-4" />}
+          label="Telefono"
           value="info@hiberus.com"
         />
       </div>
