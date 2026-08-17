@@ -123,7 +123,7 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
       <p className="text-[11px] font-bold tracking-widest text-sky-400 uppercase">
         Sede Hiberus
       </p>
-      <h2 className="mt-1 text-3xl leading-tight font-thin text-white">
+      <h2 className="mt-1 text-3xl leading-tight font-black text-white">
         {titulo}
       </h2>
       <p className="mt-1 flex items-center gap-2 text-base font-semibold text-white">

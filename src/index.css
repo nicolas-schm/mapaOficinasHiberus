@@ -133,7 +133,7 @@ body {
 h1,
 h2 {
   font-family: var(--heading);
-  font-weight: 500;
+  font-weight: 800;
   color: var(--text-h);
 }
 
@@ -267,7 +267,7 @@ code {
     font-weight: 100;
   }
   .maplibregl-map {
-    font-family: var(--sans)!important;
+    font-family: var(--sans) !important;
   }
   .maplibregl-popup-content {
     @apply bg-transparent! shadow-none! p-0! rounded-none!;
