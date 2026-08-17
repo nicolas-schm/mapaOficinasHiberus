@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:5250/src/index.css)",
+      "Bash(grep -o \"font-heading[^\\\\\\\\]*\\\\\\\\\\\\\\\\n[^\\\\\\\\]*\\\\\\\\\\\\\\\\n[^\\\\\\\\]*\")",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(curl -s http://localhost:5173/src/index.css)",
+      "Bash(grep -o \"\\\\-\\\\-default-font-family[^\\\\\\\\\\\\\\\\]*\")",
+      "Bash(grep -o \"\\\\-\\\\-sans:[^\\\\\\\\\\\\\\\\]*\")",
+      "Bash(node -e ' *)",
+      "Bash(curl -s -o /dev/null -w \"cyrillic-ext: %{http_code}\\\\n\" \"http://localhost:5173/node_modules/@fontsource-variable/montserrat/files/montserrat-cyrillic-ext-wght-normal.woff2\")",
+      "Bash(curl -s -o /dev/null -w \"latin: %{http_code}\\\\n\" \"http://localhost:5173/node_modules/@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2\")",
+      "Bash(curl -s -o /dev/null -w \"latin-ext: %{http_code}\\\\n\" \"http://localhost:5173/node_modules/@fontsource-variable/montserrat/files/montserrat-latin-ext-wght-normal.woff2\")"
+    ]
+  }
+}

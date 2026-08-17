@@ -40,7 +40,7 @@ function InfoRow({
   href?: string;
 }) {
   const valueClassName = cn(
-    "text-sm text-white",
+    "text-sm font-normal text-white",
     wrap ? "" : "truncate",
     href && "hover:underline",
   );
@@ -120,7 +120,7 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
       <p className="text-[11px] font-bold tracking-widest text-sky-400 uppercase">
         Sede Hiberus
       </p>
-      <h2 className="mt-1 text-3xl leading-tight font-bold text-white">
+      <h2 className="mt-1 text-3xl leading-tight font-thin text-white">
         {titulo}
       </h2>
       <p className="mt-1 flex items-center gap-2 text-base font-semibold text-white">
@@ -181,7 +181,7 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
       <p className="text-[11px] font-bold tracking-widest text-sky-400 uppercase">
         El equipo que nos hace
       </p>
-      <p className="mt-1 text-2xl font-bold text-white">#WeAreDifferent</p>
+      <p className="mt-1 text-2xl font-semibold text-white">#WeAreDifferent</p>
       <div className="mt-3 h-0.5 w-full bg-gradient-to-r from-sky-400 to-transparent" />
     </div>
   );
