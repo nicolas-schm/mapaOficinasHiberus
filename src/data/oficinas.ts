@@ -48,7 +48,9 @@ export const ORIGEN_INFO: Record<string, OficinaOrigen> = {
 };
 
 export const PAISES_CON_OFICINA = [
-  ...new Set(Object.values(ORIGEN_INFO).map((origen) => origen.iso.toUpperCase())),
+  ...new Set(
+    Object.values(ORIGEN_INFO).map((origen) => origen.iso.toUpperCase()),
+  ),
 ];
 
 export const OFICINAS: Oficina[] = [
@@ -212,6 +214,7 @@ export const OFICINAS: Oficina[] = [
     ciudad: "Colombia - Bogotá",
     direccion:
       "Calle 98 Nº 70-91 Suite 712, Centro Empresarial Vardí, Bogotá - Colombia",
+    telefono: "+57 6017189963",
     longitude: -74.0836331,
     latitude: 4.6533817,
   },
@@ -220,6 +223,7 @@ export const OFICINAS: Oficina[] = [
     ciudad: "Ecuador - Quito",
     direccion:
       "Av. 6 de Diciembre N24-417 y Luis Cordero, Edif. Novus, 4to Piso, Oficina 401, Quito - Ecuador",
+    telefono: "(02) 254-0103",
     longitude: -78.5123274,
     latitude: -0.2201641,
   },
@@ -228,6 +232,7 @@ export const OFICINAS: Oficina[] = [
     ciudad: "Ecuador - Guayaquil",
     direccion:
       "Av. Joaquín Orrantia y Leopoldo Benítez, Galería Comercial del hotel TRYP BY WYNDHAM, Mezzanine 2 oficina 213, Guayaquil - Ecuador",
+    telefono: "(04) 263-9356",
     longitude: -79.9002101,
     latitude: -2.0829656,
   },
@@ -244,6 +249,7 @@ export const OFICINAS: Oficina[] = [
     ciudad: "México - Querétaro",
     direccion:
       "World Trade Center Querétaro, Piso 13, Oficina 1305, Pº de la República Km 13020, 76230 Juriquilla, Querétaro, México",
+    telefono: "+52 5578609922 / +52 4424717804",
     longitude: -100.458387,
     latitude: 20.7125923,
   },
@@ -280,6 +286,7 @@ export const OFICINAS: Oficina[] = [
     id: "wroclaw",
     ciudad: "Polonia – Wrocław",
     direccion: "Plac Teatralny 1/22, 50–051 Wrocław (Polonia)",
+    telefono: "0048 510222555",
     longitude: 17.0316757,
     latitude: 51.1055189,
   },
@@ -287,6 +294,7 @@ export const OFICINAS: Oficina[] = [
     id: "varsovia",
     ciudad: "Polonia – Varsovia",
     direccion: "ul. Kopernika 5/7, 00-367 Warszawa (Polonia)",
+    telefono: "0048 510222555",
     longitude: 21.0711489,
     latitude: 52.2333742,
   },

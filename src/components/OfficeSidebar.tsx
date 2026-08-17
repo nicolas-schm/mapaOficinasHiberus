@@ -12,6 +12,8 @@ export type OficinaMeta = {
 export type SidebarOficina = {
   ciudad: string;
   nombre?: string;
+  direccion: string;
+  telefono?: string;
   fotos: string[];
 };
 
@@ -27,10 +29,12 @@ function InfoRow({
   icon,
   label,
   value,
+  wrap = false,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
+  wrap?: boolean;
 }) {
   return (
     <div className="flex items-center gap-3 rounded-lg border border-white/5 bg-white/5 px-3 py-2.5">
@@ -41,7 +45,9 @@ function InfoRow({
         <span className="text-[10px] font-semibold tracking-widest text-white/40 uppercase">
           {label}
         </span>
-        <span className="truncate text-sm text-white">{value}</span>
+        <span className={cn("text-sm text-white", wrap ? "" : "truncate")}>
+          {value}
+        </span>
       </div>
     </div>
   );
@@ -113,23 +119,26 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
         <InfoRow
           icon={<MapPin className="size-4" />}
           label="Ubicación"
-          value={`${oficina.ciudad}, ${meta.pais}`}
+          value={oficina.direccion}
+          wrap
         />
-        <InfoRow
+        {/* <InfoRow
           icon={<Globe2 className="size-4" />}
           label="Región"
           value={meta.region}
-        />
+        /> */}
         <InfoRow
           icon={<Mail className="size-4" />}
           label="Contacto"
           value="info@hiberus.com"
         />
-        <InfoRow
-          icon={<Phone className="size-4" />}
-          label="Telefono"
-          value="info@hiberus.com"
-        />
+        {oficina.telefono && (
+          <InfoRow
+            icon={<Phone className="size-4" />}
+            label="Teléfono"
+            value={oficina.telefono}
+          />
+        )}
       </div>
 
       <div className="mt-6">

@@ -3,6 +3,7 @@ export type Oficina = {
   ciudad: string;
   nombre?: string;
   direccion: string;
+  telefono?: string;
   longitude: number;
   latitude: number;
 };
