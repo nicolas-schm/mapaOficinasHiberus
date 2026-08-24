@@ -1,10 +1,8 @@
 import { useRef, useState, type TouchEvent } from "react";
-import { Globe, Mail, MapPin, X, Phone } from "lucide-react";
+import { Globe, MapPin, X, Phone } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PhotoGallery } from "@/components/PhotoGallery";
 import { getClientLogos } from "@/lib/clientLogos";
-
-const CLIENT_LOGOS = getClientLogos();
 
 export type OficinaMeta = {
   pais: string;
@@ -81,6 +79,7 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
   if (!oficina || !meta) return null;
 
   const titulo = oficina.nombre ?? oficina.ciudad;
+  const clientLogos = getClientLogos(meta.pais);
 
   const handleTouchStart = (e: TouchEvent) => {
     touchStartYRef.current = e.touches[0].clientY;
@@ -148,11 +147,11 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
           label="Región"
           value={meta.region}
         /> */}
-        <InfoRow
+        {/* <InfoRow
           icon={<Mail className="size-4" />}
           label="Contacto"
           value="info@hiberus.com"
-        />
+        /> */}
         {oficina.telefono && (
           <InfoRow
             icon={<Phone className="size-4" />}
@@ -179,13 +178,13 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
         </div>
       )}
 
-      {CLIENT_LOGOS.length > 0 && (
+      {clientLogos.length > 0 && (
         <div className="mt-6">
           <p className="mb-3 text-[11px] font-bold tracking-widest text-sky-400 uppercase">
             Nuestros clientes
           </p>
           <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-            {CLIENT_LOGOS.map((logo, i) => (
+            {clientLogos.map((logo, i) => (
               <img
                 key={i}
                 src={logo}
