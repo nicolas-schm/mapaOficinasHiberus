@@ -159,15 +159,19 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
             value={oficina.telefono}
           />
         )}
-        {oficina.web && (
-          <InfoRow
-            icon={<Globe className="size-4" />}
-            label="Web"
-            value={oficina.web}
-            href={oficina.web}
-          />
-        )}
       </div>
+
+      {oficina.web && (
+        <a
+          href={oficina.web}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-2 flex items-center justify-center gap-2 rounded-lg bg-[#1B3AC7] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:brightness-110"
+        >
+          <Globe className="size-4" />
+          Conocer más
+        </a>
+      )}
 
       {oficina.fotos.length > 0 && (
         <div className="mt-6">
@@ -196,13 +200,13 @@ export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
         </div>
       )}
 
-      <hr className="my-6 border-white/10" />
+      {/* <hr className="my-6 border-white/10" />
 
       <p className="text-[11px] font-bold tracking-widest text-sky-400 uppercase">
         El equipo que nos hace
       </p>
       <p className="mt-1 text-2xl font-semibold text-white">#WeAreDifferent</p>
-      <div className="mt-3 h-0.5 w-full bg-gradient-to-r from-sky-400 to-transparent" />
+      <div className="mt-3 h-0.5 w-full bg-gradient-to-r from-sky-400 to-transparent" /> */}
     </div>
   );
 }

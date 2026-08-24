@@ -16,6 +16,8 @@ const COUNTRY_LABEL_FILTERS: Record<string, (codes: string[]) => unknown[]> = {
   ],
 };
 
+const COUNTRY_LABEL_COLOR = "#fff";
+
 const HIDDEN_PLACE_LAYERS = [
   "place_hamlet",
   "place_suburbs",
@@ -57,7 +59,13 @@ export async function loadStyleWithCountryFilter(
 
   style.layers = style.layers.map((layer) => {
     const buildFilter = COUNTRY_LABEL_FILTERS[layer.id];
-    if (buildFilter) return { ...layer, filter: buildFilter(codes) };
+    if (buildFilter) {
+      return {
+        ...layer,
+        filter: buildFilter(codes),
+        paint: { ...("paint" in layer ? layer.paint : {}), "text-color": COUNTRY_LABEL_COLOR },
+      };
+    }
     if (HIDDEN_PLACE_LAYERS.includes(layer.id)) {
       return {
         ...layer,
