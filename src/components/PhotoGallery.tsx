@@ -63,9 +63,9 @@ export function PhotoGallery({ photos, className }: PhotoGalleryProps) {
           type="button"
           onClick={() => scrollByPage(-1)}
           aria-label="Fotos anteriores"
-          className="absolute top-1/2 left-1 flex size-6 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
+          className="absolute top-1/2 left-1 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
         >
-          <ChevronLeft className="size-4" />
+          <ChevronLeft className="size-5" />
         </button>
       )}
       {visiblePhotos.length > 3 && !atEnd && (
@@ -73,9 +73,9 @@ export function PhotoGallery({ photos, className }: PhotoGalleryProps) {
           type="button"
           onClick={() => scrollByPage(1)}
           aria-label="Más fotos"
-          className="absolute top-1/2 right-1 flex size-6 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
+          className="absolute top-1/2 right-1 flex size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-black/50 text-white transition-colors hover:bg-black/70"
         >
-          <ChevronRight className="size-4" />
+          <ChevronRight className="size-5" />
         </button>
       )}
     </div>

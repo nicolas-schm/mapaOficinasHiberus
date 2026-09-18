@@ -3,12 +3,18 @@ const clientLogoModules = import.meta.glob<{ default: string }>(
   { eager: true },
 );
 
-const LOGOS_BY_FOLDER: Record<string, string[]> = {};
+export type ClientLogo = { src: string; name: string };
+
+const LOGOS_BY_FOLDER: Record<string, ClientLogo[]> = {};
 
 for (const [path, mod] of Object.entries(clientLogoModules)) {
   const folder = path.match(/\/clientes\/([^/]+)\//)?.[1];
   if (!folder) continue;
-  (LOGOS_BY_FOLDER[folder] ??= []).push(mod.default);
+  const filename = path.split("/").pop() ?? "";
+  const name = decodeURIComponent(filename)
+    .replace(/\.[^.]+$/, "")
+    .replace(/^Name=/, "");
+  (LOGOS_BY_FOLDER[folder] ??= []).push({ src: mod.default, name });
 }
 
 const COUNTRY_FOLDER: Record<string, string> = {
@@ -21,7 +27,7 @@ const COUNTRY_FOLDER: Record<string, string> = {
   "Estados Unidos": "eeuu",
 };
 
-export function getClientLogos(pais: string): string[] {
+export function getClientLogos(pais: string): ClientLogo[] {
   const folder = COUNTRY_FOLDER[pais];
   if (!folder) return [];
   return LOGOS_BY_FOLDER[folder] ?? [];

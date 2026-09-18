@@ -14,6 +14,7 @@ export function OfficeMarkers({ oficinas, onSelect }: OfficeMarkersProps) {
           key={oficina.id}
           longitude={oficina.longitude}
           latitude={oficina.latitude}
+          ariaLabel={`Ver oficina de ${oficina.nombre ?? oficina.ciudad}`}
           onClick={() => onSelect(oficina)}
         >
           <MarkerContent />

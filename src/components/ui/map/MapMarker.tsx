@@ -11,6 +11,7 @@ export type MapMarkerProps = {
   longitude: number;
   latitude: number;
   children: ReactNode;
+  ariaLabel?: string;
   onClick?: (e: MouseEvent) => void;
   onMouseEnter?: (e: MouseEvent) => void;
   onMouseLeave?: (e: MouseEvent) => void;
@@ -23,6 +24,7 @@ export function MapMarker({
   longitude,
   latitude,
   children,
+  ariaLabel,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -63,14 +65,21 @@ export function MapMarker({
       callbacksRef.current.onMouseEnter?.(e);
     const handleMouseLeave = (e: MouseEvent) =>
       callbacksRef.current.onMouseLeave?.(e);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      callbacksRef.current.onClick?.(e as unknown as MouseEvent);
+    };
 
-    markerInstance.getElement()?.addEventListener("click", handleClick);
-    markerInstance
-      .getElement()
-      ?.addEventListener("mouseenter", handleMouseEnter);
-    markerInstance
-      .getElement()
-      ?.addEventListener("mouseleave", handleMouseLeave);
+    const element = markerInstance.getElement();
+    if (element) {
+      element.setAttribute("role", "button");
+      element.setAttribute("tabindex", "0");
+      element.addEventListener("click", handleClick);
+      element.addEventListener("mouseenter", handleMouseEnter);
+      element.addEventListener("mouseleave", handleMouseLeave);
+      element.addEventListener("keydown", handleKeyDown);
+    }
 
     const handleDragStart = () => {
       const lngLat = markerInstance.getLngLat();
@@ -91,6 +100,10 @@ export function MapMarker({
 
     return markerInstance;
   }, []);
+
+  useEffect(() => {
+    marker.getElement()?.setAttribute("aria-label", ariaLabel ?? "");
+  }, [marker, ariaLabel]);
 
   useEffect(() => {
     if (!map) return;

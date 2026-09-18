@@ -37,6 +37,19 @@
         42%  { transform: translateX(900px); }
         100% { transform: translateX(900px); }
       }
+
+      @media (prefers-reduced-motion: reduce) {
+        .stage {
+          animation: none;
+          opacity: 1;
+          transform: none;
+          filter: none;
+        }
+        .shine {
+          animation: none;
+          opacity: 0;
+        }
+      }
     </style>
 
     <linearGradient id="textFill" x1="0%" y1="0%" x2="0%" y2="100%">

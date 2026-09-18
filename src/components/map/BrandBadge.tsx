@@ -5,7 +5,7 @@ export function BrandBadge() {
         <span className="text-xs font-bold tracking-widest text-sky-400 uppercase">
           Hiberus
         </span>
-        <span className="text-xs text-white/50">·</span>
+        <span aria-hidden="true" className="text-xs text-white/70">·</span>
         <span className="text-xs font-medium tracking-widest text-white/90 uppercase">
           Presencia global
         </span>

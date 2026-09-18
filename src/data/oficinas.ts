@@ -331,12 +331,9 @@ export const OFICINAS: Oficina[] = [
   },
 ];
 
-export function getRegionBounds(
-  regionLabel: string,
+function boundsOf(
+  offices: Oficina[],
 ): [[number, number], [number, number]] {
-  const offices = OFICINAS.filter(
-    (oficina) => ORIGEN_INFO[oficina.id]?.region === regionLabel,
-  );
   const longitudes = offices.map((oficina) => oficina.longitude);
   const latitudes = offices.map((oficina) => oficina.latitude);
 
@@ -345,3 +342,32 @@ export function getRegionBounds(
     [Math.max(...longitudes), Math.max(...latitudes)],
   ];
 }
+
+export function getRegionBounds(
+  regionLabel: string,
+): [[number, number], [number, number]] {
+  return boundsOf(
+    OFICINAS.filter(
+      (oficina) => ORIGEN_INFO[oficina.id]?.region === regionLabel,
+    ),
+  );
+}
+
+export function getOficinasByPais(pais: string): Oficina[] {
+  return OFICINAS.filter((oficina) => ORIGEN_INFO[oficina.id]?.pais === pais);
+}
+
+export function getCountryBounds(
+  pais: string,
+): [[number, number], [number, number]] {
+  return boundsOf(getOficinasByPais(pais));
+}
+
+export const PAISES: { pais: string; iso: string }[] = Array.from(
+  new Map(
+    Object.values(ORIGEN_INFO).map((origen) => [
+      origen.pais,
+      { pais: origen.pais, iso: origen.iso },
+    ]),
+  ).values(),
+).sort((a, b) => a.pais.localeCompare(b.pais, "es"));

@@ -10,17 +10,17 @@ export function MobileZoomControls() {
         type="button"
         onClick={() => map?.zoomTo(map.getZoom() + 1, { duration: 300 })}
         aria-label="Acercar"
-        className="flex size-9 cursor-pointer items-center justify-center rounded-full bg-[#0d1a4f] text-white shadow-md"
+        className="flex size-11 cursor-pointer items-center justify-center rounded-full bg-[#0d1a4f] text-white shadow-md"
       >
-        <Plus className="size-4" />
+        <Plus className="size-5" />
       </button>
       <button
         type="button"
         onClick={() => map?.zoomTo(map.getZoom() - 1, { duration: 300 })}
         aria-label="Alejar"
-        className="flex size-9 cursor-pointer items-center justify-center rounded-full bg-[#0d1a4f] text-white shadow-md"
+        className="flex size-11 cursor-pointer items-center justify-center rounded-full bg-[#0d1a4f] text-white shadow-md"
       >
-        <Minus className="size-4" />
+        <Minus className="size-5" />
       </button>
     </div>
   );

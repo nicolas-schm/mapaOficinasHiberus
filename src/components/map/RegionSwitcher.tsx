@@ -13,7 +13,7 @@ export function RegionSwitcher({
   onSelect,
 }: RegionSwitcherProps) {
   return (
-    <div className="absolute top-2 left-2 z-10 flex gap-1.5 sm:gap-2">
+    <>
       {regiones.map((region) => (
         <button
           key={region.id}
@@ -29,6 +29,6 @@ export function RegionSwitcher({
           {region.label}
         </button>
       ))}
-    </div>
+    </>
   );
 }
