@@ -10,7 +10,20 @@
       "Bash(node -e ' *)",
       "Bash(curl -s -o /dev/null -w \"cyrillic-ext: %{http_code}\\\\n\" \"http://localhost:5173/node_modules/@fontsource-variable/montserrat/files/montserrat-cyrillic-ext-wght-normal.woff2\")",
       "Bash(curl -s -o /dev/null -w \"latin: %{http_code}\\\\n\" \"http://localhost:5173/node_modules/@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2\")",
-      "Bash(curl -s -o /dev/null -w \"latin-ext: %{http_code}\\\\n\" \"http://localhost:5173/node_modules/@fontsource-variable/montserrat/files/montserrat-latin-ext-wght-normal.woff2\")"
+      "Bash(curl -s -o /dev/null -w \"latin-ext: %{http_code}\\\\n\" \"http://localhost:5173/node_modules/@fontsource-variable/montserrat/files/montserrat-latin-ext-wght-normal.woff2\")",
+      "Bash(npx --yes mapshaper countries2.json -filter '[\"ESP\",\"USA\",\"ARG\",\"COL\",\"ECU\",\"MEX\",\"CHL\",\"DEU\",\"AND\",\"ITA\",\"POL\",\"GBR\",\"ROU\",\"MAR\"].indexOf\\(this.properties[\"ISO3166-1-Alpha-3\"]\\) === -1' -filter-fields ISO3166-1-Alpha-3 -simplify 3% weighted keep-shapes -o precision=0.0001 force test_3pct_ks.geojson)",
+      "Bash(git -C \"c:\\\\Users\\\\nleschiutta\\\\Desktop\\\\oficinasHiberusV2\" mv src/components/map/CountryDimOverlay.tsx src/components/map/CountryOfficeOverlay.tsx)",
+      "Bash(tasklist)",
+      "Bash(curl -s -o /dev/null -w \"root: %{http_code} time:%{time_total}s\\\\n\" --max-time 8 http://localhost:5173/)",
+      "Bash(curl -s -o /dev/null -w \"main.tsx: %{http_code} time:%{time_total}s\\\\n\" --max-time 8 \"http://localhost:5173/src/main.tsx\")",
+      "Bash(curl -s -o /dev/null -w \"App.tsx: %{http_code} time:%{time_total}s\\\\n\" --max-time 8 \"http://localhost:5173/src/App.tsx\")",
+      "Bash(curl -s -o /dev/null -w \"root: %{http_code} time:%{time_total}s\\\\n\" --max-time 40 http://localhost:5173/)",
+      "Bash(curl -s -o /dev/null -w \"main.tsx: %{http_code} time:%{time_total}s\\\\n\" --max-time 15 \"http://localhost:5173/src/main.tsx\")",
+      "Bash(curl -s -o /dev/null -w \"@vite/client: %{http_code} time:%{time_total}s\\\\n\" --max-time 15 \"http://localhost:5173/@vite/client\")",
+      "Bash(curl -s -o /dev/null -w \"@react-refresh: %{http_code} time:%{time_total}s\\\\n\" --max-time 15 \"http://localhost:5173/@react-refresh\")",
+      "Bash(curl -s -o /dev/null -w \"vite-client: %{http_code} time:%{time_total}s\\\\n\" --max-time 15 \"http://localhost:5173/@vite/client\")",
+      "Bash(curl -s -o /dev/null -w \"react-refresh: %{http_code} time:%{time_total}s\\\\n\" --max-time 15 \"http://localhost:5173/@react-refresh\")",
+      "Bash(curl -s -o /dev/null -w \"main.tsx: %{http_code} time:%{time_total}s\\\\n\" --max-time 90 \"http://localhost:5173/src/main.tsx\")"
     ]
   }
 }

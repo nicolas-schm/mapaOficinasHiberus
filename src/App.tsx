@@ -10,7 +10,7 @@ import { BrandTag } from "@/components/map/BrandTag";
 import { MapHint } from "@/components/map/MapHint";
 import { MobileZoomControls } from "@/components/map/MobileZoomControls";
 import { OfficeMarkers } from "@/components/map/OfficeMarkers";
-import { CountryDimOverlay } from "@/components/map/CountryDimOverlay";
+import { CountryOfficeOverlay } from "@/components/map/CountryOfficeOverlay";
 import { useMapStyles } from "@/hooks/useMapStyles";
 import {
   OFICINAS,
@@ -148,7 +148,7 @@ function App() {
         styles={mapStyles}
         className="h-full w-full bg-transparent"
       >
-        <CountryDimOverlay />
+        <CountryOfficeOverlay />
         <div className="absolute top-2 left-2 z-10 flex items-center gap-1.5 sm:gap-2">
           <RegionSwitcher
             regiones={REGIONES}

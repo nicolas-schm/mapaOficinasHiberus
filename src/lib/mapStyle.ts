@@ -34,7 +34,7 @@ const HIDDEN_PLACE_LAYERS = [
   "place_capital_dot_z7",
 ];
 
-const LAND_COLOR = "#00bcff";
+const LAND_COLOR = "#213fad";
 const LAND_LAYERS = new Set(["background", "landcover", "landuse"]);
 
 const WATER_COLOR = "#060d3f";
