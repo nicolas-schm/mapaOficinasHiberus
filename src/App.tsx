@@ -44,16 +44,28 @@ function getSidePanelAwarePadding() {
   return { top: 60, bottom: 220, left: 30, right: 30 };
 }
 
+function getPinnedOficina(): Oficina | null {
+  const id = new URLSearchParams(window.location.search).get("oficina");
+  if (!id) return null;
+  return OFICINAS.find((oficina) => oficina.id === id) ?? null;
+}
+
 function App() {
   const mapRef = useRef<MapRef>(null);
+  const [pinnedOficina] = useState<Oficina | null>(getPinnedOficina);
+  const isPinned = pinnedOficina !== null;
   const [activeRegionId, setActiveRegionId] = useState<string | null>(
-    "todos",
+    isPinned ? null : "todos",
   );
   const [selectedOficina, setSelectedOficina] = useState<Oficina | null>(
-    null,
+    pinnedOficina,
   );
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
-  const [announcement, setAnnouncement] = useState("");
+  const [announcement, setAnnouncement] = useState(
+    pinnedOficina
+      ? `Mostrando oficina de ${pinnedOficina.nombre ?? pinnedOficina.ciudad}`
+      : "",
+  );
   const mapStyles = useMapStyles();
 
   const handleMarkerSelect = (oficina: Oficina) => {
@@ -143,31 +155,42 @@ function App() {
       <Map
         ref={mapRef}
         projection={{ type: "globe" }}
-        center={INITIAL_CENTER}
-        zoom={INITIAL_ZOOM}
+        center={
+          pinnedOficina
+            ? [pinnedOficina.longitude, pinnedOficina.latitude]
+            : INITIAL_CENTER
+        }
+        zoom={pinnedOficina ? OFFICE_ZOOM : INITIAL_ZOOM}
+        interactive={!isPinned}
         styles={mapStyles}
         className="h-full w-full bg-transparent"
       >
         <CountryOfficeOverlay />
-        <div className="absolute top-2 left-2 z-10 flex items-center gap-1.5 sm:gap-2">
-          <RegionSwitcher
-            regiones={REGIONES}
-            activeRegionId={activeRegionId}
-            onSelect={handleRegionSelect}
-          />
-          <CountryDropdown paises={PAISES} onSelect={handleCountrySelect} />
-        </div>
+        {!isPinned && (
+          <div className="absolute top-2 left-2 z-10 flex items-center gap-1.5 sm:gap-2">
+            <RegionSwitcher
+              regiones={REGIONES}
+              activeRegionId={activeRegionId}
+              onSelect={handleRegionSelect}
+            />
+            <CountryDropdown paises={PAISES} onSelect={handleCountrySelect} />
+          </div>
+        )}
         <BrandBadge />
-        <OfficeMarkers oficinas={OFICINAS} onSelect={handleMarkerSelect} />
+        <OfficeMarkers
+          oficinas={pinnedOficina ? [pinnedOficina] : OFICINAS}
+          onSelect={handleMarkerSelect}
+        />
         <PresenceStats total={OFICINAS.length} />
         <BrandTag />
-        <MapHint />
-        <MobileZoomControls />
+        {!isPinned && <MapHint />}
+        {!isPinned && <MobileZoomControls />}
         <OfficeSidebar
           key={selectedOficina?.id}
           oficina={sidebarOficina}
           meta={selectedOficina ? ORIGEN_INFO[selectedOficina.id] : null}
           onClose={handleSidebarClose}
+          closable={!isPinned}
         />
         {selectedCountry && countryIso && (
           <CountryOfficesPanel

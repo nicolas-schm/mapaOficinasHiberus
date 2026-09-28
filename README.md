@@ -1,3 +1,64 @@
+## Fijar una oficina concreta mediante parámetro en la URL
+
+En cualquier URL del CMS donde esté embebido este mapa, se puede añadir el parámetro `oficina` en la query string para que el mapa cargue directamente centrado en esa sede, con el zoom cercano y el panel lateral abierto:
+
+```
+?oficina=madrid
+?oficina=buenos-aires
+```
+
+Cuando la URL incluye este parámetro:
+
+- El mapa aparece centrado en esa oficina, con el zoom ya cercano.
+- El panel lateral se abre automáticamente y no se puede cerrar (sin botón de cerrar ni con la tecla Escape).
+- Se ocultan el selector de región y el desplegable de país, para que no se pueda salir de esa vista.
+- El mapa queda bloqueado: no se puede arrastrar, hacer zoom con scroll ni rotar.
+- Solo se muestra el pin de esa oficina, ningún otro.
+
+Sin el parámetro `oficina`, el mapa se comporta como siempre (vista global con todas las oficinas).
+
+### Listado de identificadores por oficina
+
+| Identificador (`?oficina=`) | Sede |
+| --- | --- |
+| `zaragoza` | Zaragoza |
+| `madrid` | Madrid |
+| `barcelona` | Barcelona |
+| `alicante` | Alicante |
+| `almeria` | Almería |
+| `asturias` | Asturias |
+| `bilbao` | Bilbao |
+| `granada` | Granada |
+| `lleida` | Lleida |
+| `logrono` | Logroño |
+| `mallorca` | Mallorca |
+| `pamplona` | Pamplona |
+| `santander` | Santander |
+| `sevilla` | Sevilla |
+| `soria` | Soria |
+| `toledo` | Toledo |
+| `valencia` | Valencia |
+| `valladolid` | Valladolid |
+| `vitoria` | Vitoria-Gasteiz |
+| `miami` | Estados Unidos – Miami |
+| `buenos-aires` | Argentina – Buenos Aires |
+| `bogota` | Colombia – Bogotá |
+| `quito` | Ecuador – Quito |
+| `guayaquil` | Ecuador – Guayaquil |
+| `cdmx` | México – Ciudad de México |
+| `queretaro` | México – Querétaro |
+| `santiago` | Chile – Santiago |
+| `grafelfing` | Alemania – Gräfelfing |
+| `andorra` | Andorra – Andorra la Vella |
+| `milan` | Italia – Milán |
+| `wroclaw` | Polonia – Wrocław |
+| `varsovia` | Polonia – Varsovia |
+| `londres` | Reino Unido – Londres |
+| `bucarest` | Rumanía – Bucarest |
+| `tetuan` | Marruecos – Tetuán |
+
+---
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

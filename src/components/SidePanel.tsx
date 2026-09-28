@@ -13,10 +13,16 @@ const SWIPE_THRESHOLD = 30;
 type SidePanelProps = {
   title: string;
   onClose: () => void;
+  closable?: boolean;
   children: ReactNode;
 };
 
-export function SidePanel({ title, onClose, children }: SidePanelProps) {
+export function SidePanel({
+  title,
+  onClose,
+  closable = true,
+  children,
+}: SidePanelProps) {
   const [expanded, setExpanded] = useState(false);
   const touchStartYRef = useRef<number | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -26,7 +32,7 @@ export function SidePanel({ title, onClose, children }: SidePanelProps) {
     panelRef.current?.focus();
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (closable && e.key === "Escape") onClose();
     };
     document.addEventListener("keydown", handleKeyDown);
 
@@ -35,7 +41,7 @@ export function SidePanel({ title, onClose, children }: SidePanelProps) {
       previouslyFocused?.focus();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [closable]);
 
   const handleTouchStart = (e: TouchEvent) => {
     touchStartYRef.current = e.touches[0].clientY;
@@ -71,14 +77,16 @@ export function SidePanel({ title, onClose, children }: SidePanelProps) {
         <span className="h-1 w-10 rounded-full bg-white/25" />
       </div>
 
-      <button
-        type="button"
-        onClick={onClose}
-        aria-label="Cerrar"
-        className="absolute top-2 right-2 flex size-11 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
-      >
-        <X className="size-4" />
-      </button>
+      {closable && (
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Cerrar"
+          className="absolute top-2 right-2 flex size-11 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+        >
+          <X className="size-4" />
+        </button>
+      )}
 
       {children}
     </div>

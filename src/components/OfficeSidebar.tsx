@@ -23,6 +23,7 @@ type OfficeSidebarProps = {
   oficina: SidebarOficina | null;
   meta: OficinaMeta | null;
   onClose: () => void;
+  closable?: boolean;
 };
 
 function InfoRow({
@@ -70,14 +71,23 @@ function InfoRow({
   );
 }
 
-export function OfficeSidebar({ oficina, meta, onClose }: OfficeSidebarProps) {
+export function OfficeSidebar({
+  oficina,
+  meta,
+  onClose,
+  closable = true,
+}: OfficeSidebarProps) {
   if (!oficina || !meta) return null;
 
   const titulo = oficina.nombre ?? oficina.ciudad;
   const clientLogos = getClientLogos(meta.pais);
 
   return (
-    <SidePanel title={`Sede Hiberus en ${titulo}`} onClose={onClose}>
+    <SidePanel
+      title={`Sede Hiberus en ${titulo}`}
+      onClose={onClose}
+      closable={closable}
+    >
       <p className="text-[11px] font-bold tracking-widest text-sky-400 uppercase">
         Sede Hiberus
       </p>
