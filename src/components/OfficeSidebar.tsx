@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { PhotoGallery } from "@/components/PhotoGallery";
 import { SidePanel } from "@/components/SidePanel";
 import { getClientLogos } from "@/lib/clientLogos";
+import { getOfficeServices } from "@/lib/officeServices";
 
 export type OficinaMeta = {
   pais: string;
@@ -11,6 +12,7 @@ export type OficinaMeta = {
 };
 
 export type SidebarOficina = {
+  id: string;
   ciudad: string;
   nombre?: string;
   direccion: string;
@@ -81,6 +83,7 @@ export function OfficeSidebar({
 
   const titulo = oficina.nombre ?? oficina.ciudad;
   const clientLogos = getClientLogos(meta.pais);
+  const servicios = getOfficeServices(oficina.id);
 
   return (
     <SidePanel
@@ -149,6 +152,24 @@ export function OfficeSidebar({
                 alt={logo.name}
                 className="h-6 w-auto object-contain opacity-90 brightness-0 invert"
               />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {servicios.length > 0 && (
+        <div className="mt-6">
+          <p className="mb-3 text-[11px] font-bold tracking-widest text-sky-400 uppercase">
+            Servicios destacados
+          </p>
+          <div className="flex flex-wrap gap-2 pt-2">
+            {servicios.map((servicio) => (
+              <span
+                key={servicio}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-white"
+              >
+                {servicio}
+              </span>
             ))}
           </div>
         </div>
