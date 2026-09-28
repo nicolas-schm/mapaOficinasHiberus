@@ -10,6 +10,7 @@ import { BrandTag } from "@/components/map/BrandTag";
 import { MapHint } from "@/components/map/MapHint";
 import { MobileZoomControls } from "@/components/map/MobileZoomControls";
 import { OfficeMarkers } from "@/components/map/OfficeMarkers";
+import { CountryDimOverlay } from "@/components/map/CountryDimOverlay";
 import { useMapStyles } from "@/hooks/useMapStyles";
 import {
   OFICINAS,
@@ -25,8 +26,8 @@ import { displayCiudad } from "@/lib/format";
 import type { Oficina, Region } from "@/types/office";
 import "./App.css";
 
-const INITIAL_CENTER: [number, number] = [-3.7, 40.4];
-const INITIAL_ZOOM = 1.5;
+const INITIAL_CENTER: [number, number] = [-30.523865403512332, 6.621962644059004];
+const INITIAL_ZOOM = 3.1833544906905806;
 const OFFICE_ZOOM = 6;
 const FLY_TO_DURATION = 1500;
 const SIDE_PANEL_WIDTH = 507;
@@ -147,6 +148,7 @@ function App() {
         styles={mapStyles}
         className="h-full w-full bg-transparent"
       >
+        <CountryDimOverlay />
         <div className="absolute top-2 left-2 z-10 flex items-center gap-1.5 sm:gap-2">
           <RegionSwitcher
             regiones={REGIONES}

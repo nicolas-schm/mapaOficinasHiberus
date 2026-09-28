@@ -34,20 +34,10 @@ const HIDDEN_PLACE_LAYERS = [
   "place_capital_dot_z7",
 ];
 
-const LAND_COLOR = "#2A49E0";
+const LAND_COLOR = "#00bcff";
 const LAND_LAYERS = new Set(["background", "landcover", "landuse"]);
 
-const WATER_COLOR_EXPRESSION = [
-  "interpolate",
-  ["linear"],
-  ["zoom"],
-  1,
-  "#1B3AC7",
-  4,
-  "#0E1E8C",
-  10,
-  "#030620",
-];
+const WATER_COLOR = "#060d3f";
 const WATER_LAYERS = new Set(["water"]);
 
 export async function loadStyleWithCountryFilter(
@@ -63,7 +53,10 @@ export async function loadStyleWithCountryFilter(
       return {
         ...layer,
         filter: buildFilter(codes),
-        paint: { ...("paint" in layer ? layer.paint : {}), "text-color": COUNTRY_LABEL_COLOR },
+        paint: {
+          ...("paint" in layer ? layer.paint : {}),
+          "text-color": COUNTRY_LABEL_COLOR,
+        },
       };
     }
     if (HIDDEN_PLACE_LAYERS.includes(layer.id)) {
@@ -86,7 +79,7 @@ export async function loadStyleWithCountryFilter(
     if (WATER_LAYERS.has(layer.id) && "paint" in layer) {
       return {
         ...layer,
-        paint: { ...layer.paint, "fill-color": WATER_COLOR_EXPRESSION },
+        paint: { ...layer.paint, "fill-color": WATER_COLOR },
       };
     }
     return layer;
