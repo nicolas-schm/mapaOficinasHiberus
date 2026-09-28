@@ -26,9 +26,11 @@ import { displayCiudad } from "@/lib/format";
 import type { Oficina, Region } from "@/types/office";
 import "./App.css";
 
-const INITIAL_CENTER: [number, number] = [-30.523865403512332, 6.621962644059004];
-const INITIAL_ZOOM = 3.1833544906905806;
-const OFFICE_ZOOM = 6;
+const INITIAL_CENTER: [number, number] = [
+  -40.68735154119992, 26.227578401917757,
+];
+const INITIAL_ZOOM = 3.036264961785999;
+const OFFICE_ZOOM = 15;
 const FLY_TO_DURATION = 1500;
 const SIDE_PANEL_WIDTH = 507;
 const DESKTOP_BREAKPOINT = 640;
@@ -72,9 +74,7 @@ function App() {
     setActiveRegionId(null);
     setSelectedCountry(null);
     setSelectedOficina(oficina);
-    setAnnouncement(
-      `Mostrando oficina de ${oficina.nombre ?? oficina.ciudad}`,
-    );
+    setAnnouncement(`Mostrando oficina de ${oficina.nombre ?? oficina.ciudad}`);
     mapRef.current?.flyTo({
       center: [oficina.longitude, oficina.latitude],
       zoom: OFFICE_ZOOM,
@@ -147,7 +147,11 @@ function App() {
   return (
     <main
       aria-label="Mapa interactivo de oficinas Hiberus"
-      style={{ height: "100vh", width: "100vw", background: BACKGROUND_GRADIENT }}
+      style={{
+        height: "100vh",
+        width: "100vw",
+        background: BACKGROUND_GRADIENT,
+      }}
     >
       <div role="status" aria-live="polite" className="sr-only">
         {announcement}

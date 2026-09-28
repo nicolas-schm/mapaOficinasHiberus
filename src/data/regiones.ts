@@ -4,8 +4,8 @@ export const REGIONES: Region[] = [
   {
     id: "todos",
     label: "Todos",
-    center: [-30.523865403512332, 6.621962644059004],
-    zoom: 3.1833544906905806,
+    center: [-40.68735154119992, 26.227578401917757],
+    zoom: 3.036264961785999,
   },
   { id: "europa", label: "Europa", center: [15, 52], zoom: 3.4 },
   { id: "america", label: "América", center: [-80, 10], zoom: 2 },

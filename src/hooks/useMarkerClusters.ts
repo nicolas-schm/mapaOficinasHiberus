@@ -10,6 +10,11 @@ export type OfficeCluster = {
 };
 
 const CLUSTER_SPREAD_PX = 100;
+const ALWAYS_CLUSTER_ZOOM = 4.2;
+
+const CLUSTER_PIN_OFFSET: Record<string, { lat: number; lng: number }> = {
+  España: { lat: -1.5, lng: 0 },
+};
 
 export function useMarkerClusters(
   map: MapLibreMap | null,
@@ -47,6 +52,7 @@ export function useMarkerClusters(
           continue;
         }
 
+        const alwaysCluster = map.getZoom() < ALWAYS_CLUSTER_ZOOM;
         const points = group.map((oficina) =>
           map.project([oficina.longitude, oficina.latitude]),
         );
@@ -56,7 +62,7 @@ export function useMarkerClusters(
         const height = Math.max(...ys) - Math.min(...ys);
         const spread = Math.sqrt(width * width + height * height);
 
-        if (spread <= CLUSTER_SPREAD_PX) {
+        if (alwaysCluster || spread <= CLUSTER_SPREAD_PX) {
           const centroid = group.reduce(
             (acc, oficina) => {
               acc.longitude += oficina.longitude;
@@ -67,6 +73,12 @@ export function useMarkerClusters(
           );
           centroid.longitude /= group.length;
           centroid.latitude /= group.length;
+
+          const offset = CLUSTER_PIN_OFFSET[key];
+          if (offset) {
+            centroid.longitude += offset.lng;
+            centroid.latitude += offset.lat;
+          }
 
           next.push({
             id: key,
